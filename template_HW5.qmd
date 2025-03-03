@@ -1,0 +1,254 @@
+---
+title: "HW 5 Multilevel Models (MLMs) & Generalized Linear Mixed Models (GLMMs): Data Analysis Problems"
+subtitle: "Advanced Regression (STAT 353-0)"
+author: "YOUR NAME"
+pagetitle: "HW 5 YOUR NAME"
+date: today
+
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    embed-resources: true
+    code-fold: false
+    link-external-newwindow: true
+    theme: cosmo
+
+execute:
+  warning: false
+
+from: markdown+emoji
+reference-location: margin
+citation-location: margin
+---
+
+::: {.callout-tip icon=false}
+
+## Github Repo Link
+
+To link to your github **repo**sitory, appropriately edit the example link below. Meaning replace `https://your-github-repo-url` with your github repo url. Suggest verifying the link works before submitting.
+
+[https://your-github-repo-url](https://your-github-repo-url)
+
+:::
+
+::: {.callout-important}
+
+All students are required to complete this problem set!
+
+:::
+
+
+## Data analysis problems
+
+### 1. Exercise D23.2 (MLM)
+
+The file `Snijders.txt` contains data on 4,106 grade-8 students (who are approximately 11 years old) in 216 primary schools in the Netherlands. The data are used for several examples, somewhat different from the analysis that we will pursue below, by Snijders and Boskers in Multilevel Analysis, 2nd Edition (Sage, 2012).
+
+The data set includes the following variables:
+
+- `school`: a (non-consecutive) ID number indicating which school the student attends.
+- `iq`: the student's verbal IQ score, ranging from 4 to 18.5 (i.e., not traditionally scaled to a population mean of 100 and standard deviation of 15).
+- `test`: the student's score on an end-of-year language test, with scores ranging from 8 to 58.
+- `ses`: the socioeconomic status of the student's family, with scores ranging from 10 to 50.
+- `class.size`: the number of students in the student's class, ranging from 10 to 42; this variable is constant within schools, apparently reflecting the fact that all of the students in each school were in the same class.
+- `meanses`: the mean SES in the student's school, calculated from the data; the original data set included the school-mean SES, but this differed from the values that I computed directly from the data, possibly it was based on all of the students in the school.
+- `meaniq`: the mean IQ in the student's school, calculated (for the same reason) from the data.
+
+#### Data Prep
+
+There are some missing data, and I suggest that you begin by removing cases with missing data. How many students are lost when missing data are removed in this manner? Then create and add the following two variables to the data set:
+
+- `SES_c` : school-centred SES, computed as the difference between each student's SES and the mean of his or her school; and
+
+- `IQ_c` : school-centred IQ.
+
+
+::: {.callout-tip icon="false"}
+## Solution
+
+YOUR SOLUTION HERE
+
+```{r}
+
+
+```
+
+:::
+
+#### Part (a) 
+Examine scatterplots of students' test scores by centered SES and centred IQ for each of 20 randomly sampled schools. Do the relationships in the scatterplots seem reasonably linear? 
+
+*Hint: In interpreting these scatterplots, take into account the small number of students in each school, ranging from 4 to 34 in the full data set.*
+
+::: {.callout-tip icon="false"}
+## Solution
+
+YOUR SOLUTION HERE
+
+```{r}
+
+
+```
+
+:::
+
+#### Part (b) 
+Regress the students' test scores on centred SES and centred IQ within schools for the full dataset --- that is, compute a separate regression for each school. Then plot each set of coefficients (starting with the intercepts) against the schools' mean SES, mean IQ, and class size. Do the coefficients appear to vary systematically by the schools' characteristics (i.e., by the Level 2 explanatory variables centred SES, centred IQ, and class size)?
+
+::: {.callout-tip icon="false"}
+## Solution
+
+YOUR SOLUTION HERE
+
+```{r}
+
+
+```
+
+:::
+
+#### Part (c) 
+Fit linear mixed-effects models to the Snijders and Boskers data, proceeding as follows:
+
+- Begin with a one-way random-effects ANOVA of test scores by schools. What proportion of the total variation in test scores among students is between schools (i.e., what is the intra-class correlation)?
+
+::: {.callout-tip icon="false"}
+## Solution
+
+YOUR SOLUTION HERE
+
+```{r}
+
+
+```
+
+:::
+
+- Fit a random-coefficients regression of test scores on the students' centered SES and centered IQ. Initially include random effects for the intercept and both explanatory variables. Test whether each of these random effects is needed, and eliminate from the model those that are not (if any are not). How, if at all, are test scores related to the explanatory variables?^[Note: You may obtain a convergence warning in fitting one or more of the null models that remove variance and covariance components; this warning should not prevent you from performing the likelihood-ratio test for the corresponding random effects.]
+
+::: {.callout-tip icon="false"}
+## Solution
+
+YOUR SOLUTION HERE
+
+```{r}
+
+
+```
+
+:::
+
+- Introduce mean school SES, mean school IQ, and class size as Level 2 explanatory variable, but only for the Level 1 coefficients that were found to vary significantly among schools in the random-coefficients model. 
+
+    *Hint: Recall that modeling variation in Level 1 coefficients by Level 2 explanatory variables implies the inclusion of cross-level interactions in the model; and don't forget that the intercepts are Level 1 coefficients that may depend on Level 2 explanatory variables. It may well help to write down the mixed-effects model first in hierarchical form and then in Laird-Ware form.* 
+    
+    Test whether the random effects that you retained in the random-coefficients model are still required now that there are Level 2 predictors in the model.^[Note: Again, you may obtain a convergence warning.]
+    
+::: {.callout-tip icon="false"}
+## Solution
+
+YOUR SOLUTION HERE
+
+```{r}
+
+
+```
+
+:::
+
+- Compute tests of the various main effects and interactions in the coefficients-as-outcomes model. Then simplify the model by removing any fixed-effects terms that are nonsignificant. Finally, interpret the results obtained for the simplified model. If your final model includes interactions, you may wish to construct effect displays to visualize the interactions.
+
+::: {.callout-tip icon="false"}
+## Solution
+
+YOUR SOLUTION HERE
+
+```{r}
+
+
+```
+
+:::
+
+
+### 2. Exercise D23.2 (Binary version)
+
+Repeat Problem (1) but now, instead of using `test` as the outcome, you will use a dichotomized version. To do so, create a new variable called `high_pass` that indicates if a student receives a score of 90% or above. Please include all parts except the scatterplots of test scores by centered SES and IQ.
+
+Pay particular attention to interpretation and to how your results compare with those based on the continuous version. Are your results similar or do they differ? Explain why or why not.
+
+::: {.callout-tip icon="false"}
+## Solution
+
+YOUR SOLUTION HERE
+
+```{r}
+
+
+```
+
+:::
+
+### 3. Exercise D23.3 (Longitudinal)
+
+Laird and Fitzmaurice ("Longitudinal Data Modeling," in Scott, Simonoff, and Marx, eds., The SAGE Handbook of Multilevel Modeling, Sage, 2013) analyze longitudinal data from the MIT Growth and Development Study on the change over time of percent body fat in 162 girls before and after menarch (age at first mentruation). The data are in the file `Phillips.txt`
+
+- `subject`: subject ID number, 1---162.
+
+- `age`: age (in years) at the time of measurement; the girls are measured at different ages, and although the measurements are approximately taken annually, the ages are not generally whole numbers.
+
+- `menarche`: age at menarch (constant within subjects).
+
+- `age.adjusted`: age − age at menarch.
+
+- `body.fat`: percentage body fat at the time of measurement.
+
+Laird and Fitzmaurice fit a linear mixed-effects model to the data,
+
+$$
+Y_{ij} = \beta_1 +\beta_2 t_{ij-}+\beta _3 t_{ij+}+\delta _{1i}+\delta _{2i}t_{ij-}+\delta _{3i}t_{ij+}+\epsilon _{ij}  
+$$
+
+where
+
+- $Y_{ij}$ is the body-fat measurement for girl $i$ on occasion $j$;
+
+- $t_{ij-}$ is adjusted age prior to menarche and 0 thereafter;
+
+- $t_{ij+}$ is adjusted age after menarche and 0 before;
+
+- $\beta_1, \beta_2, \beta_3$ are fixed effects; and
+
+- $\delta_{1i}, \delta_{2i}, \delta_{3i}$ are subject-specific random effects.
+
+#### Part (a) 
+Examine the data by plotting body fat versus adjusted age for all of the girls simultaneously; following Laird and Fitzmaurice, add a lowess smooth to the scatterplot. Now randomly select a subset (say, 30) of the girls and plot body fat versus adjusted age separately for each of the selected girls. What can you say about the apparent relationship between body fat and age before and after menarche? Is Laird and Fitzmaurice's model reasonable given your exploration of the data? Explain what each fixed-effect and random-effect coefficient in the model represents.
+
+::: {.callout-tip icon="false"}
+## Solution
+
+YOUR SOLUTION HERE
+
+```{r}
+
+
+```
+
+:::
+
+#### Part (b) 
+Fit the mixed-effects model as specified by Laird and Fitzmaurice. What do you conclude? Consider the possibility of dropping each of the random effects from the model.
+
+::: {.callout-tip icon="false"}
+## Solution
+
+YOUR SOLUTION HERE
+
+```{r}
+
+
+```
+
+:::
